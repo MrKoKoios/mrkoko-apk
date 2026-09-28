@@ -40,21 +40,9 @@
             </intent-filter>
         </activity>
 
-        <!-- Overlay Entry Point -->
-        <activity
-            android:name="com.mrkoko.signalpro.OverlayActivity"
-            android:exported="false"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-
-        <!-- Foreground Service for screen capture -->
+        <!-- Accessibility Service -->
         <service
-            android:name="com.mrkoko.signalpro.CaptureService"
-            android:exported="false"
-            android:foregroundServiceType="mediaProjection"/>
-
-        <!-- Accessibility Service for auto-scroll -->
-        <service
-            android:name="com.mrkoko.signalpro.MarketAccessibilityService"
+            android:name=".MarketAccessibilityService"
             android:exported="true"
             android:label="MR KOKO Market Scanner"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
