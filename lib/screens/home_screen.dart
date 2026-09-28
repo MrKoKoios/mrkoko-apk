@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_overlay_window/flutter_overlay_window.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package/material.dart';
+import 'package/flutter_overlay_window.dart';
+import 'package/permission_handler.dart';
 import '../services/database_service.dart';
 import '../engine/signal_engine.dart';
 
 class HomeScreen extends StatefulWidget {
 const HomeScreen({super.key});
+
 @override
 State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -13,7 +14,9 @@ State<HomeScreen> createState() => _HomeScreenState();
 class _HomeScreenState extends State<HomeScreen> {
 bool _overlayGranted = false;
 bool _accessibilityGranted = false;
+
 final DatabaseService _db = DatabaseService();
+
 int _savedCount = 0;
 List<Map<String, dynamic>> _history = [];
 
@@ -33,20 +36,17 @@ _loadHistory();
 Future<void> _checkPermissions() async {
 final overlay = await FlutterOverlayWindow.isPermissionGranted();
 
-```
 if (!mounted) return;
 
 setState(() {
   _overlayGranted = overlay;
 });
-```
 
 }
 
 Future<void> _loadHistory() async {
 await _db.init();
 
-```
 final count = await _db.getSignalCount();
 final hist = await _db.getSignals(limit: 30);
 
@@ -56,7 +56,6 @@ setState(() {
   _savedCount = count;
   _history = hist;
 });
-```
 
 }
 
@@ -69,7 +68,6 @@ Future<void> _startFloatingIcon() async {
 if (!_overlayGranted) {
 await _requestOverlay();
 
-```
   if (!_overlayGranted) {
     return;
   }
@@ -83,7 +81,6 @@ await FlutterOverlayWindow.showOverlay(
   flag: OverlayFlag.defaultFlag,
   overlayTitle: 'MR KOKO Scanner',
 );
-```
 
 }
 
@@ -517,7 +514,6 @@ if (_history.isEmpty) {
 return const SizedBox.shrink();
 }
 
-```
 return _card(
   title: 'SIGNAL HISTORY',
   children: _history.take(10).map((s) {
@@ -579,7 +575,6 @@ return _card(
     );
   }).toList(),
 );
-```
 
 }
 
