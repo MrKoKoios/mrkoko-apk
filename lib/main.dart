@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_overlay_window/flutter_overlay_window.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import 'screens/home_screen.dart';
 import 'screens/overlay_screen.dart';
 
-void main() async {
+/// Entry point for the floating overlay.
+///
+/// IMPORTANT:
+/// flutter_overlay_window starts this function in a separate
+/// Flutter engine when the overlay is opened.
+@pragma("vm:entry-point")
+void overlayMain() {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-  );
+  runApp(const OverlayApp());
+}
 
-  // Entry point for overlay window
-  if (await FlutterOverlayWindow.isActive()) {
-    runApp(const OverlayApp());
-    return;
-  }
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ),
+  );
 
   runApp(const MrKokoApp());
 }
 
 class MrKokoApp extends StatelessWidget {
   const MrKokoApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,6 +56,7 @@ class MrKokoApp extends StatelessWidget {
 
 class OverlayApp extends StatelessWidget {
   const OverlayApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
